@@ -1,0 +1,132 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <div class="app-info">
+            <div class="app-logo">A</div>
+            <div class="app-details">
+                <div class="app-name">App Name</div>
+                <div class="app-version">v1.0.0</div>
+            </div>
+        </div>
+        <div class="search-box">
+            <i icon-name="search" class="search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search...">
+        </div>
+    </div>
+
+    <div class="sidebar-content">
+        <div class="sidebar-group">
+            <div class="sidebar-group-label">Main Menu</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item">
+                    <a href="#" class="active">
+                        <i icon-name="home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i icon-name="users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i icon-name="files"></i>
+                        <span>Files</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-group">
+            <div class="sidebar-group-label">Support</div>
+            <ul class="sidebar-menu">
+                <li class="menu-item">
+                    <a href="#">
+                        <i icon-name="settings"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#">
+                        <i icon-name="help-circle"></i>
+                        <span>Help Center</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar-footer">
+        <div class="menu-item">
+            <a href="#">
+                <i icon-name="log-out"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <button class="toggle-btn">
+        <i icon-name="chevron-left"></i>
+    </button>
+
+    <button class="theme-switch">
+        <i icon-name="moon"></i>
+    </button>
+</aside>
+
+<script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Sidebar toggle functionality
+        const sidebar = document.querySelector('.sidebar');
+        const toggleBtn = document.querySelector('.toggle-btn');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Mobile menu toggle
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // Menu item active state
+        const menuItems = document.querySelectorAll('.menu-item a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        // Dark mode toggle
+        const themeSwitch = document.querySelector('.theme-switch');
+        const themeIcon = themeSwitch.querySelector('i');
+
+        themeSwitch.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            if (document.body.classList.contains('dark')) {
+                themeIcon.setAttribute('icon-name', 'sun');
+            } else {
+                themeIcon.setAttribute('icon-name', 'moon');
+            }
+            lucide.createIcons();
+        });
+
+        // Keyboard shortcut (Ctrl/Cmd + B)
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
+                e.preventDefault();
+                sidebar.classList.toggle('collapsed');
+            }
+        });
+    });
+</script>

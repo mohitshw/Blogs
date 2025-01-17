@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - WriteWave{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h3">Welcome back, {{ request.user.username }}!</h1>
+            <p class="text-muted">Here's an overview of your blog activity</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Stats Cards -->
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h6 class="text-muted mb-2">Total Posts</h6>
+                            <h4 class="mb-0">{{ total_posts }}</h4>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i icon-name="file-text" class="text-primary" width="32" height="32"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h6 class="text-muted mb-2">Total Views</h6>
+                            <h4 class="mb-0">{{ total_views }}</h4>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <i icon-name="eye" class="text-success" width="32" height="32"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Recent Posts -->
+        <div class="col-md-6 col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Posts</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Views</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for post in recent_posts %}
+                                <tr>
+                                    <td>{{ post.title }}</td>
+                                    <td>{{ post.created_at|date:"M d, Y" }}</td>
+                                    <td>{{ post.views }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if post.status == 'published' %}success{% else %}warning{% endif %}">
+                                            {{ post.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No posts yet</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Draft -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Quick Draft</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'apps.core:home' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="title" placeholder="Post title">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" name="content" rows="4" placeholder="Write something..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Draft</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
