@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 # Create your views here.
-def home(request, *args, **kwargs):
-    print(args, kwargs)
-    print(request.user)
+def home(request):
+
     return render(request, "dashboard/home.html")
