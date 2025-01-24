@@ -1,0 +1,8 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="email" name="email" required>
+    <button type="submit">Next</button>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+</form>
